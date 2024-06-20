@@ -4,9 +4,7 @@ import java.util.Scanner;
 
 public class Menu {
     int opcao;
-//    static {
-//        Formulario formulario = Formulario.criarFormulario("formulario.txt");
-//    }
+
     {
         Formulario formulario = Formulario.criarFormulario("formulario.txt");
         Usuario usuario = new Usuario();
@@ -36,7 +34,7 @@ public class Menu {
                     formulario.adicionarPerguntas();
                     break;
                 case 4:
-                    System.out.println("Ainda nao implementado");
+                    formulario.apagarPerguntas();
                     break;
                 case 5:
                     System.out.println("Ainda nao implementado");

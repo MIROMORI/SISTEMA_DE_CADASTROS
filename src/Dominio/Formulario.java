@@ -15,16 +15,45 @@ public class Formulario {
         System.out.println("Pergunta: ");
         pergunta = scan.nextLine();
         quantidadeDePerguntas++;
-        try(FileWriter fw = new FileWriter(file);
+        try(FileWriter fw = new FileWriter(file, true);
             BufferedWriter bw = new BufferedWriter(fw)){
-            bw.write(pergunta);
+            bw.write(pergunta + "\n");
         }catch (IOException e){
             e.printStackTrace();
         }
+        printarPerguntas();
 
     }
 
     public void apagarPerguntas(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Apagar pergunta de número: ");
+        int perguntaDeletada = scan.nextInt();
+        //criar novo arquivo temporario
+        File tempFormulario = new File("tempFormulario.txt");
+        try{
+            tempFormulario.createNewFile();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        try(FileWriter fw = new FileWriter(tempFormulario);
+        BufferedWriter bw = new BufferedWriter(fw)){
+            for(int i=0;i<quantidadeDePerguntas;i++){
+                if(i != perguntaDeletada - 1 && i > 4) {
+                    bw.write(perguntas[i] + "\n");
+                    bw.flush();
+                    File formulario = new File("formulario.txt");
+                    try{
+                        formulario.delete();
+                        tempFormulario.renameTo(formulario);
+                    }catch (SecurityException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -33,6 +62,7 @@ public class Formulario {
         BufferedReader br = new BufferedReader(fr)){
             String linha;
             String[] tempPerguntas = new String[100];
+            quantidadeDePerguntas = 0;
             while((linha = br.readLine()) != null){
                 tempPerguntas[quantidadeDePerguntas] = linha;
                 quantidadeDePerguntas++;
